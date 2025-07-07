@@ -1,0 +1,6 @@
+sentence-transformers==3.0.1
+chromadb
+langchain_chroma
+langchain_huggingface
+langchain-community
+pypdf 

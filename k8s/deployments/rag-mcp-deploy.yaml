@@ -1,0 +1,36 @@
+# Deployment for rag-mcp
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rag-mcp-deployment
+  namespace: multi-agent-bot
+  labels:
+    app: rag-mcp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rag-mcp
+  template:
+    metadata:
+      labels:
+        app: rag-mcp
+    spec:
+      containers:
+      - name: rag-mcp
+        image: rag-mcp-server:latest
+        ports:
+        - containerPort: 9000
+        envFrom:
+        - configMapRef:
+            name: bot-config
+        - secretRef:
+            name: bot-secrets
+        volumeMounts:
+        - name: rag-data-volume
+          mountPath: /app/chroma
+        imagePullPolicy: Never # <--- THIS LINE IS NOW CORRECTLY INDENTED
+      volumes:
+      - name: rag-data-volume
+        persistentVolumeClaim:
+          claimName: rag-pvc

@@ -1,0 +1,11 @@
+# Dockerfile.rag_data_loader
+FROM base-mcp:latest 
+
+WORKDIR /app
+
+COPY docs /app/docs
+
+COPY scripts/load_initial_rag_data.py /app/scripts/load_initial_rag_data.py
+
+# Command to run the data loading script
+CMD ["python", "scripts/load_initial_rag_data.py"]

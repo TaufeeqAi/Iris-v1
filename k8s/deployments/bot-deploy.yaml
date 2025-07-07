@@ -1,0 +1,29 @@
+# Deployment for bot
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: bot-api-deployment
+      namespace: multi-agent-bot
+      labels:
+        app: bot-api
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: bot-api
+      template:
+        metadata:
+          labels:
+            app: bot-api
+        spec:
+          containers:
+          - name: bot-api
+            image: multi-agent-bot-api:latest 
+            ports:
+            - containerPort: 8000
+            envFrom:
+            - configMapRef:
+                name: bot-config # Injects non-sensitive config
+            - secretRef:
+                name: bot-secrets # Injects sensitive secrets
+            imagePullPolicy: Never

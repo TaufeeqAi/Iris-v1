@@ -1,0 +1,13 @@
+# k8s/persistentvolumeclaims/rag-pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: rag-pvc
+  namespace: multi-agent-bot
+spec:
+  accessModes:
+    - ReadWriteOnce # This means the volume can be mounted as read-write by a single node
+  resources:
+    requests:
+      storage: 1Gi # Request 5 Gigabytes of storage. Adjust as needed.
+  # storageClassName: standard # Uncomment and specify if your KinD has a specific StorageClass

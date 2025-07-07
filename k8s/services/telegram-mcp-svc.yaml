@@ -1,0 +1,15 @@
+# Service for telegram-mcp
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: telegram-mcp-svc # DNS name for the Telegram MCP
+      namespace: multi-agent-bot
+    spec:
+      selector:
+        app: telegram-mcp # Matches the 'app' label of your telegram-mcp pods
+      ports:
+        - protocol: TCP
+          port: 9000 # The port this Service listens on
+          targetPort: 9000 # The port on the container
+      type: ClusterIP
+    

@@ -1,0 +1,18 @@
+  # k8s/configmaps.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: bot-config # Name of the configmap
+    namespace: multi-agent-bot
+data:
+  # General application mode (false for Kubernetes deployment) 
+  LOCAL_MODE: "false"
+
+  # Internal service URLs for inter-component communication
+  # These names (e.g., fastmcp-core-svc) are the Kubernetes Service names,
+  # which resolve to the internal cluster IP addresses of the services.
+  FASTMCP_BASE_URL: "http://fastmcp-core-svc:9000"
+  BOT_API_BASE_URL: "http://bot-api-svc:8000"
+  DISCORD_EVENTS_ENDPOINT: "http://bot-api-svc:8000/discord/receive_message"
+
+  

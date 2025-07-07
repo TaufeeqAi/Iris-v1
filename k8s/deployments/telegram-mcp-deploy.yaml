@@ -1,0 +1,34 @@
+# Deployment for telegram-mcp
+# k8s/deployments/telegram-mcp-deploy.yaml
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: telegram-mcp-deployment
+      namespace: multi-agent-bot
+      labels:
+        app: telegram-mcp
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: telegram-mcp
+      template:
+        metadata:
+          labels:
+            app: telegram-mcp
+        spec:
+          containers:
+          - name: telegram-mcp
+            image: telegram-mcp-server:latest 
+            ports:
+            - containerPort: 9000
+            envFrom:
+            - configMapRef:
+                name: bot-config
+            - secretRef:
+                name: bot-secrets
+            imagePullPolicy: Never
+    
+    
+    
+    

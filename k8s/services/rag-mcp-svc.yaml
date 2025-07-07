@@ -1,0 +1,15 @@
+# Service for rag-mcp
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: rag-mcp-svc # DNS name for the RAG MCP
+      namespace: multi-agent-bot
+    spec:
+      selector:
+        app: rag-mcp # Matches the 'app' label of your rag-mcp pods
+      ports:
+        - protocol: TCP
+          port: 9000 # The port this Service listens on
+          targetPort: 9000 # The port on the container
+      type: ClusterIP
+    

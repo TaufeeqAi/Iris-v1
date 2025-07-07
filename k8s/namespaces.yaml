@@ -1,0 +1,6 @@
+# Namespace definitions   
+    apiVersion: v1
+    kind: Namespace
+    metadata:
+      name: multi-agent-bot # All the bot resources will live here
+    

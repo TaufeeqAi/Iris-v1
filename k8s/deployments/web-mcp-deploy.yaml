@@ -1,0 +1,33 @@
+# Deployment for web-mcp
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: web-mcp-deployment
+      namespace: multi-agent-bot
+      labels:
+        app: web-mcp
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: web-mcp
+      template:
+        metadata:
+          labels:
+            app: web-mcp
+        spec:
+          containers:
+          - name: web-mcp
+            image: web-mcp-server:latest 
+            ports:
+            - containerPort: 9000
+            envFrom:
+            - configMapRef:
+                name: bot-config
+            - secretRef:
+                name: bot-secrets # For any web-related API keys (e.g., SerpApi)
+            imagePullPolicy: Never
+    
+    
+    
+    

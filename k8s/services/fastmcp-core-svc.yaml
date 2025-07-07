@@ -1,0 +1,15 @@
+    # k8s/services/fastmcp-core-svc.yaml
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: fastmcp-core-svc # DNS name for the core MCP
+      namespace: multi-agent-bot
+    spec:
+      selector:
+        app: fastmcp-core # Matches the 'app' label of your fastmcp-core pods
+      ports:
+        - protocol: TCP
+          port: 9000 # The port this Service listens on
+          targetPort: 9000 # The port on the container
+      type: ClusterIP
+    

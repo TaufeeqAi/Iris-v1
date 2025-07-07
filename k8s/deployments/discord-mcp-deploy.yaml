@@ -1,0 +1,30 @@
+# Deployment for discord-mcp
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: discord-mcp-deployment
+      namespace: multi-agent-bot
+      labels:
+        app: discord-mcp
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: discord-mcp
+      template:
+        metadata:
+          labels:
+            app: discord-mcp
+        spec:
+          containers:
+          - name: discord-mcp
+            image: discord-mcp-server:latest # Image built in Step 1
+            ports:
+            - containerPort: 9000
+            envFrom:
+            - configMapRef:
+                name: bot-config
+            - secretRef:
+                name: bot-secrets
+            imagePullPolicy: Never
+    

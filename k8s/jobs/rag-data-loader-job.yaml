@@ -1,0 +1,31 @@
+# k8s/jobs/rag-data-loader-job.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: rag-data-loader-job # Unique name for the job
+  namespace: multi-agent-bot,
+spec:
+  template:
+    metadata:
+      labels:
+        app: rag-data-loader # Label for this job's pods
+    spec:
+      restartPolicy: OnFailure # Pod will restart if it fails, until it succeeds
+      containers:
+      - name: rag-data-loader
+        image: rag-data-loader:latest
+        imagePullPolicy: IfNotPresent # Important for local dev with KinD and :latest tag
+        # Command is defined in the Dockerfile.
+        # If you need to override, use 'command: ["python", "scripts/load_initial_rag_data.py"]'
+        envFrom:
+        - configMapRef:
+            name: bot-config # To get FASTMCP_BASE_URL if needed by the script (though not directly for Chroma)
+        - secretRef:
+            name: bot-secrets # To get GROQ_API_KEY if needed by the script (for embeddings model if it uses an API)
+        volumeMounts:
+        - name: rag-data-volume # Mount the PVC to the same path as RAG MCP
+          mountPath: /app/chroma
+      volumes:
+      - name: rag-data-volume
+        persistentVolumeClaim:
+          claimName: rag-pvc # Reference the PVC defined earlier

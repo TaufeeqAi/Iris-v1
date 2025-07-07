@@ -1,0 +1,15 @@
+# Service for bot
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: bot-api-svc # This is the DNS name other services will use to reach bot-api
+      namespace: multi-agent-bot
+    spec:
+      selector:
+        app: bot-api # Matches the 'app' label of your bot-api pods
+      ports:
+        - protocol: TCP
+          port: 8000 # The port this Service listens on
+          targetPort: 8000 # The port on the container that the Service forwards traffic to
+      type: ClusterIP # Makes the service only accessible from within the cluster
+    

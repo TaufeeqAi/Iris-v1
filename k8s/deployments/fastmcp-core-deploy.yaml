@@ -1,0 +1,30 @@
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: fastmcp-core-deployment
+      namespace: multi-agent-bot
+      labels:
+        app: fastmcp-core
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: fastmcp-core
+      template:
+        metadata:
+          labels:
+            app: fastmcp-core
+        spec:
+          containers:
+          - name: fastmcp-core
+            image: fastmcp-core-server:latest
+            ports:
+            - containerPort: 9000
+            envFrom:
+            - configMapRef:
+                name: bot-config
+            - secretRef:
+                name: bot-secrets # In case core MCP needs any secrets directly
+            imagePullPolicy: Never
+    
+    
